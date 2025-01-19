@@ -1,6 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { resolve } from "path";
+import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -10,7 +10,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": resolve(__dirname, "src"), // Alias para src
+      "@": path.resolve(__dirname, "./src"),
+      "@blocks": path.resolve(__dirname, "./src/blocks"),
     },
   },
 });

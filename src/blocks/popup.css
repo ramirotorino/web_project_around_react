@@ -11,8 +11,9 @@
   z-index: 1000;
 }
 
-.popup_opened {
-  display: flex;
+.popup__opened {
+  display: flex; /* Muestra el popup */
+  opacity: 1; /* Asegura que sea visible */
 }
 
 .popup__container {
@@ -20,50 +21,85 @@
   padding: 20px;
   border-radius: 10px;
   width: 90%;
-  max-width: 400px;
+  max-width: 430px;
   position: relative;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .popup__title {
-  margin: 0 0 20px;
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 18px;
   font-weight: bold;
+  color: #000;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.popup__close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
+.popup__form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.popup__field {
+  display: flex;
+  flex-direction: column;
+}
+
+.popup__input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.popup__input:focus {
+  outline: 2px solid #000;
+}
+
+.popup__button {
+  width: 100%;
+  padding: 10px;
+  background-color: #000;
+  color: #fff;
   border: none;
-  font-size: 1.5rem;
-  font-weight: bold;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  color: #000;
+  margin-top: 15px;
 }
 
-.popup__close-button:hover {
-  opacity: 0.7;
+.popup__button:hover {
+  background-color: #333;
 }
 
-.popup__content_content_image {
-  padding: 0;
-  background-color: transparent;
-  max-width: 90%;
+.popup__confirm-text {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.popup__confirm-button {
+  width: 100%;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.popup__confirm-button:hover {
+  opacity: 0.8;
 }
 
 .popup__image {
   width: 100%;
+  max-width: 600px;
   height: auto;
-  display: block;
+  max-height: 80vh;
+  object-fit: contain;
   border-radius: 10px;
-}
-
-.popup__caption {
-  margin-top: 10px;
-  font-size: 16px;
-  text-align: center;
-  color: #fff;
 }

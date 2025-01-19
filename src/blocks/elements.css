@@ -3,21 +3,20 @@
   max-width: 880px;
   display: flex;
   flex-wrap: wrap;
-  row-gap: 21px;
-  column-gap: 17px;
 }
 
 .elements__picture {
-  max-width: 282px;
-  min-height: 361px;
+  width: 282px; /* Ancho de la tarjeta */
+  height: 361px; /* Altura total de la tarjeta */
   position: relative;
 }
 
 .elements__picture-size {
-  width: 282px;
-  height: 282px;
+  width: 282px; /* Ancho de la imagen */
+  height: 282px; /* Altura de la imagen */
   border-radius: 10px 10px 0 0;
   display: block;
+  object-fit: cover; /* Ajusta la imagen para que mantenga sus proporciones */
 }
 
 .elements__picture-trash-btn {
@@ -41,7 +40,7 @@
 .elements__picture-name-section {
   background-color: #fff;
   padding: 0 15px 0 21px;
-  max-width: 282px;
+  width: 282px;
   height: 79px;
   border-radius: 0 0 10px 10px;
   display: flex;
@@ -53,8 +52,8 @@
   font-size: 24px;
   line-height: 29px;
   color: #000;
-  text-overflow: ellipsis; /*Estas últimas líneas se usan para evitar desbordamiento de texto*/
-  white-space: nowrap; /*aplicar una elipsis "..."*/
+  text-overflow: ellipsis; /* Estas últimas líneas se usan para evitar desbordamiento de texto */
+  white-space: nowrap; /* Aplicar una elipsis "..." */
   overflow: hidden;
 }
 
@@ -80,4 +79,13 @@
 .elements__like-btn-active {
   background: url(https://practicum-content.s3.us-west-1.amazonaws.com/web-code/dom/moved_heart-filled.svg)
     center no-repeat;
+}
+
+.cards__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(282px, 1fr));
+  gap: 17px;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
 }

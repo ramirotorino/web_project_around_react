@@ -1,33 +1,30 @@
 import React from "react";
-import "@/blocks/elements.css"; // Asegúrate de que la ruta sea correcta
+import "@/blocks/elements.css";
 
-export default function Card({ card, onCardClick }) {
+export default function Card({ card, onCardClick, onCardDelete }) {
   const { name, link } = card;
 
-  const handleClick = () => {
-    onCardClick(card); // Llamar a la función onCardClick con la tarjeta como argumento
-  };
-
   return (
-    <li className="card">
+    <li className="elements__picture">
       <img
-        className="card__image"
+        className="elements__picture-size"
         src={link}
         alt={name}
-        onClick={handleClick} // Vincular el clic con la función onCardClick
+        onClick={() => onCardClick(card)}
       />
       <button
         aria-label="Delete card"
-        className="card__delete-button"
+        className="elements__picture-trash-btn"
         type="button"
-      />
-      <div className="card__description">
-        <h2 className="card__title">{name}</h2>
+        onClick={() => onCardDelete(card)}
+      ></button>
+      <div className="elements__picture-name-section">
+        <h2 className="elements__picture-name">{name}</h2>
         <button
           aria-label="Like card"
           type="button"
-          className="card__like-button"
-        />
+          className="elements__like-btn"
+        ></button>
       </div>
     </li>
   );

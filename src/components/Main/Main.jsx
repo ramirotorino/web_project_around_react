@@ -6,8 +6,9 @@ import EditProfile from "./form/EditProfile/EditProfile";
 import EditAvatar from "./form/EditAvatar/EditAvatar";
 import Card from "../Card/Card";
 import ImagePopup from "./Popup/ImagePopup";
+import ConfirmDeletePopup from "./Popup/ConfirmDeletePopup";
 
-// Importa el componente Card e ImagePopup
+// Importa los estilos
 import "../../../src/blocks/profile.css";
 import "../../../src/blocks/popup.css";
 import "../../../src/blocks/page.css";
@@ -41,13 +42,36 @@ console.log(cards); // Imprimir los datos para verificar
 function Main() {
   const [popup, setPopup] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null); // Estado para la tarjeta seleccionada
+  const [deleteCard, setDeleteCard] = useState(null); // Estado para eliminar tarjeta
 
-  const newCardPopup = { title: "Nueva Tarjeta", children: <NewCard /> };
+  const newCardPopup = {
+    title: "Nueva Tarjeta",
+    type: "profile",
+    children: <NewCard />,
+  };
   const editProfilePopup = {
     title: "Editar Perfil",
+    type: "profile",
     children: <EditProfile />,
   };
-  const editAvatarPopup = { title: "Editar Avatar", children: <EditAvatar /> };
+  const editAvatarPopup = {
+    title: "Editar Avatar",
+    type: "profile",
+    children: <EditAvatar />,
+  };
+  const deletePopup = {
+    title: "¿Estás seguro?",
+    type: "delete",
+    children: (
+      <ConfirmDeletePopup
+        onConfirm={() => {
+          console.log("Eliminando tarjeta:", deleteCard);
+          setDeleteCard(null);
+          setPopup(null);
+        }}
+      />
+    ),
+  };
 
   const handleOpenPopup = (popup) => {
     console.log("Abriendo popup:", popup);
@@ -58,10 +82,16 @@ function Main() {
     console.log("Cerrando popup");
     setPopup(null);
     setSelectedCard(null); // Limpia la tarjeta seleccionada
+    setDeleteCard(null); // Limpia la tarjeta a eliminar
   };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+  };
+
+  const handleCardDelete = (card) => {
+    setDeleteCard(card);
+    handleOpenPopup(deletePopup);
   };
 
   return (
@@ -109,14 +139,24 @@ function Main() {
       <section className="elements">
         <ul className="cards__list">
           {cards.map((card) => (
-            <Card key={card._id} card={card} onCardClick={handleCardClick} />
+            <Card
+              key={card._id}
+              card={card}
+              onCardClick={handleCardClick}
+              onCardDelete={handleCardDelete}
+            />
           ))}
         </ul>
       </section>
 
       {/* Popup */}
       {popup && (
-        <Popup onClose={handleClosePopup} title={popup.title} isOpen={!!popup}>
+        <Popup
+          onClose={handleClosePopup}
+          title={popup.title}
+          type={popup.type}
+          isOpen={!!popup}
+        >
           {popup.children}
         </Popup>
       )}

@@ -1,23 +1,25 @@
+// Debugged Popup.jsx
 import React from "react";
-import "@/blocks/popup.css"; // Ruta usando el alias
+import "@/blocks/popup.css";
 
-export default function Popup({ title, children, isOpen, onClose }) {
-  const popupClass = `popup ${isOpen ? "popup_opened" : ""}`;
-
-  // Manejar el cierre al hacer clic fuera del contenedor
-  const handleOverlayClick = (e) => {
-    if (e.target.classList.contains("popup_opened")) {
-      onClose();
-    }
-  };
+export default function Popup({ isOpen, title, children, onClose }) {
+  console.log("Popup renderizado:", { isOpen, title }); // Debugging
 
   return (
-    <div className={popupClass} onClick={handleOverlayClick}>
+    <div className={`popup ${isOpen ? "popup__opened" : ""}`}>
       <div className="popup__container">
-        <button type="button" className="popup__close-button" onClick={onClose}>
-          &times;
+        <button
+          className="popup__close-button"
+          type="button"
+          onClick={() => {
+            console.log("Popup cerrado"); // Debugging
+            onClose();
+          }}
+          aria-label="Close popup"
+        >
+          ×
         </button>
-        <h3 className="popup__title">{title}</h3>
+        {title && <h2 className="popup__title">{title}</h2>}
         <div className="popup__content">{children}</div>
       </div>
     </div>
