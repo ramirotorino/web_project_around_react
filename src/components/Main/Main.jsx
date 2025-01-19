@@ -1,3 +1,4 @@
+// Final Fix for Image Popup in Main.jsx
 import React, { useState } from "react";
 import avatar from "../../images/profilePhoto.png";
 import Popup from "../Main/Popup/Popup";
@@ -8,7 +9,7 @@ import Card from "../Card/Card";
 import ImagePopup from "./Popup/ImagePopup";
 import ConfirmDeletePopup from "./Popup/ConfirmDeletePopup";
 
-// Importa los estilos
+// Import styles
 import "../../../src/blocks/profile.css";
 import "../../../src/blocks/popup.css";
 import "../../../src/blocks/page.css";
@@ -17,7 +18,7 @@ import "../../../src/blocks/header.css";
 import "../../../src/blocks/footer.css";
 import "@/blocks/elements.css";
 
-// Datos ficticios de tarjetas
+// Sample card data
 const cards = [
   {
     isLiked: false,
@@ -37,61 +38,53 @@ const cards = [
   },
 ];
 
-console.log(cards); // Imprimir los datos para verificar
-
 function Main() {
-  const [popup, setPopup] = useState(null);
-  const [selectedCard, setSelectedCard] = useState(null); // Estado para la tarjeta seleccionada
-  const [deleteCard, setDeleteCard] = useState(null); // Estado para eliminar tarjeta
+  const [popup, setPopup] = useState(null); // State for general popups
+  const [selectedCard, setSelectedCard] = useState(null); // State for image popups
+  const [deleteCard, setDeleteCard] = useState(null); // State for delete confirmation popup
 
-  const newCardPopup = {
-    title: "Nueva Tarjeta",
-    type: "profile",
-    children: <NewCard />,
-  };
-  const editProfilePopup = {
-    title: "Editar Perfil",
-    type: "profile",
-    children: <EditProfile />,
-  };
-  const editAvatarPopup = {
-    title: "Editar Avatar",
-    type: "profile",
-    children: <EditAvatar />,
-  };
-  const deletePopup = {
-    title: "¿Estás seguro?",
-    type: "delete",
-    children: (
-      <ConfirmDeletePopup
-        onConfirm={() => {
-          console.log("Eliminando tarjeta:", deleteCard);
-          setDeleteCard(null);
-          setPopup(null);
-        }}
-      />
-    ),
-  };
-
+  // Function to handle opening a popup
   const handleOpenPopup = (popup) => {
-    console.log("Abriendo popup:", popup);
+    console.log("Opening popup:", popup);
     setPopup(popup);
   };
 
+  // Function to handle closing the current popup
   const handleClosePopup = () => {
-    console.log("Cerrando popup");
+    console.log("Closing popup");
     setPopup(null);
-    setSelectedCard(null); // Limpia la tarjeta seleccionada
-    setDeleteCard(null); // Limpia la tarjeta a eliminar
   };
 
+  // Function to handle card selection (image popup)
   const handleCardClick = (card) => {
+    console.log("Card selected for image popup:", card); // Debugging
     setSelectedCard(card);
   };
 
+  // Function to close the image popup
+  const handleCloseImagePopup = () => {
+    console.log("Closing image popup");
+    setSelectedCard(null);
+  };
+
+  // Function to handle card deletion
   const handleCardDelete = (card) => {
+    console.log("Card delete initiated:", card);
     setDeleteCard(card);
-    handleOpenPopup(deletePopup);
+    setPopup({
+      title: "¿Estás seguro?",
+      type: "delete",
+      children: (
+        <ConfirmDeletePopup
+          onConfirm={() => {
+            console.log("Card deleted:", deleteCard);
+            setDeleteCard(null);
+            setPopup(null);
+          }}
+          onClose={() => setPopup(null)}
+        />
+      ),
+    });
   };
 
   return (
@@ -105,7 +98,13 @@ function Main() {
           />
           <button
             className="profile__avatar-edit"
-            onClick={() => handleOpenPopup(editAvatarPopup)}
+            onClick={() =>
+              handleOpenPopup({
+                title: "Editar Avatar",
+                type: "profile",
+                children: <EditAvatar />,
+              })
+            }
           >
             <img src="./images/pencilEditButton.svg" alt="Edit Avatar Icon" />
           </button>
@@ -117,7 +116,13 @@ function Main() {
           </div>
           <button
             className="profile__info-edit"
-            onClick={() => handleOpenPopup(editProfilePopup)}
+            onClick={() =>
+              handleOpenPopup({
+                title: "Editar Perfil",
+                type: "profile",
+                children: <EditProfile />,
+              })
+            }
           >
             <img
               className="profile__info-edit-pencil"
@@ -129,27 +134,33 @@ function Main() {
         <button
           className="profile__add-img"
           type="button"
-          onClick={() => handleOpenPopup(newCardPopup)}
+          onClick={() =>
+            handleOpenPopup({
+              title: "Nueva Tarjeta",
+              type: "profile",
+              children: <NewCard />,
+            })
+          }
         >
           Nueva Tarjeta
         </button>
       </section>
 
-      {/* Lista de tarjetas */}
+      {/* Card list */}
       <section className="elements">
         <ul className="cards__list">
           {cards.map((card) => (
             <Card
               key={card._id}
               card={card}
-              onCardClick={handleCardClick}
+              onCardClick={() => handleCardClick(card)} // Fixed handling for image selection
               onCardDelete={handleCardDelete}
             />
           ))}
         </ul>
       </section>
 
-      {/* Popup */}
+      {/* General popup */}
       {popup && (
         <Popup
           onClose={handleClosePopup}
@@ -161,10 +172,10 @@ function Main() {
         </Popup>
       )}
 
-      {/* ImagePopup */}
+      {/* Image popup */}
       <ImagePopup
         isOpen={!!selectedCard}
-        onClose={handleClosePopup}
+        onClose={handleCloseImagePopup}
         card={selectedCard}
       />
     </main>
