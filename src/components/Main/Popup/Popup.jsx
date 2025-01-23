@@ -1,13 +1,17 @@
-// Debugged Popup.jsx
+// Popup.jsx Debug: Force Content Visibility
 import React from "react";
 import "@/blocks/popup.css";
 
 export default function Popup({ isOpen, title, children, onClose }) {
-  console.log("Popup renderizado:", { isOpen, title }); // Debugging
+  console.log("Popup renderizado:", { isOpen, title, children }); // Debugging
+
+  const popupClass = `popup ${isOpen ? "popup__opened" : ""}`;
 
   return (
-    <div className={`popup ${isOpen ? "popup__opened" : ""}`}>
-      <div className="popup__container">
+    <div className={popupClass}>
+      <div className="popup__container" style={{ minHeight: "200px" }}>
+        {" "}
+        {/* Force minimum height */}
         <button
           className="popup__close-button"
           type="button"
@@ -20,7 +24,23 @@ export default function Popup({ isOpen, title, children, onClose }) {
           ×
         </button>
         {title && <h2 className="popup__title">{title}</h2>}
-        <div className="popup__content">{children}</div>
+        <div
+          className="popup__content"
+          style={{ minHeight: "150px", border: "1px solid red" }}
+        >
+          {" "}
+          {/* Debugging border */}
+          {children ? (
+            <>
+              {children}
+              <p style={{ color: "red" }}>Contenido recibido correctamente</p>
+            </>
+          ) : (
+            <p style={{ color: "red" }}>
+              El contenido (children) no fue proporcionado
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );

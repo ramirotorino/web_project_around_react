@@ -1,4 +1,4 @@
-// Final Fix for Image Popup in Main.jsx
+// Main.jsx with fixed styles for title visibility
 import React, { useState } from "react";
 import avatar from "../../images/profilePhoto.png";
 import Popup from "../Main/Popup/Popup";
@@ -42,6 +42,12 @@ function Main() {
   const [popup, setPopup] = useState(null); // State for general popups
   const [selectedCard, setSelectedCard] = useState(null); // State for image popups
   const [deleteCard, setDeleteCard] = useState(null); // State for delete confirmation popup
+
+  // Profile data state
+  const [profileData, setProfileData] = useState({
+    name: "Jacques Cousteau",
+    about: "Explorer",
+  });
 
   // Function to handle opening a popup
   const handleOpenPopup = (popup) => {
@@ -87,6 +93,14 @@ function Main() {
     });
   };
 
+  // Function to handle profile edit submission
+  const handleEditProfileSubmit = (event, updatedProfile) => {
+    event.preventDefault();
+    console.log("Profile edited:", updatedProfile);
+    setProfileData(updatedProfile);
+    setPopup(null);
+  };
+
   return (
     <main className="content">
       <section className="profile">
@@ -102,7 +116,7 @@ function Main() {
               handleOpenPopup({
                 title: "Editar Avatar",
                 type: "profile",
-                children: <EditAvatar />,
+                children: <EditAvatar />, // Pass avatar editing component
               })
             }
           >
@@ -111,8 +125,8 @@ function Main() {
         </div>
         <div className="profile__info">
           <div className="profile__info-text">
-            <h2 className="profile__info-name">Jacques Cousteau</h2>
-            <p className="profile__info-about">Explorer</p>
+            <h2 className="profile__info-name">{profileData.name}</h2>
+            <p className="profile__info-about">{profileData.about}</p>
           </div>
           <button
             className="profile__info-edit"
@@ -120,7 +134,20 @@ function Main() {
               handleOpenPopup({
                 title: "Editar Perfil",
                 type: "profile",
-                children: <EditProfile />,
+                children: (
+                  <EditProfile
+                    isOpen={true}
+                    onClose={handleClosePopup}
+                    onSubmit={(event) =>
+                      handleEditProfileSubmit(event, {
+                        name: profileData.name,
+                        about: profileData.about,
+                      })
+                    }
+                    name={profileData.name}
+                    about={profileData.about}
+                  />
+                ),
               })
             }
           >
@@ -138,7 +165,7 @@ function Main() {
             handleOpenPopup({
               title: "Nueva Tarjeta",
               type: "profile",
-              children: <NewCard />,
+              children: <NewCard />, // Pass new card component
             })
           }
         >
@@ -164,9 +191,15 @@ function Main() {
       {popup && (
         <Popup
           onClose={handleClosePopup}
-          title={popup.title}
+          title={popup.title} // Pass title correctly
           type={popup.type}
-          isOpen={!!popup}
+          isOpen={true}
+          titleStyle={{
+            color: "black",
+            fontSize: "20px",
+            textAlign: "center",
+            margin: "10px 0",
+          }} // Ensure title visibility
         >
           {popup.children}
         </Popup>
