@@ -44,7 +44,7 @@ export default function EditProfile({
         left: 0,
         width: "100vw",
         height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backgroundColor: "rgba(0, 0, 0, 0.2)",
         alignItems: "center",
         justifyContent: "center",
         zIndex: 1000,
@@ -75,6 +75,7 @@ export default function EditProfile({
           ×
         </button>
         <h3
+          className="popup__title"
           style={{ textAlign: "center", marginBottom: "20px", color: "#000" }}
         >
           Editar Perfil
@@ -103,12 +104,7 @@ export default function EditProfile({
               onChange={handleChange}
               placeholder="Nombre"
               required
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
+              className="popup__input"
             />
           </label>
           <label
@@ -126,12 +122,7 @@ export default function EditProfile({
               onChange={handleChange}
               placeholder="Acerca de mí"
               required
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-              }}
+              className="popup__input"
             />
           </label>
           <button

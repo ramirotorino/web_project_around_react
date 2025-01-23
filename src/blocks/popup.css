@@ -28,7 +28,7 @@
 
 .popup__title {
   margin: 0;
-  font-size: 18px;
+  font-size: 24px;
   font-weight: bold;
   color: #000;
   margin-bottom: 20px;
@@ -39,26 +39,23 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  border: 2px solid red; /* Debugging border */
-  padding: 10px; /* Debugging padding */
 }
 
 .popup__field {
   display: flex;
   flex-direction: column;
-  border: 1px solid blue; /* Debugging border */
 }
 
 .popup__input {
   width: 100%;
-  padding: 10px;
+  padding: 10px 0;
   font-size: 16px;
-  border: 1px solid green; /* Debugging border */
-  border-radius: 5px;
-}
-
-.popup__input:focus {
-  outline: 2px solid #000;
+  color: #000;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
 .popup__button {

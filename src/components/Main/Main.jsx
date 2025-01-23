@@ -115,7 +115,7 @@ function Main() {
             className="profile__avatar-edit"
             onClick={() =>
               handleOpenPopup({
-                title: "Editar Avatar",
+                title: "Cambiar foto de perfil",
                 type: "profile",
                 children: <EditAvatar />, // Pass avatar editing component
               })
@@ -164,7 +164,7 @@ function Main() {
           type="button"
           onClick={() =>
             handleOpenPopup({
-              title: "Nueva Tarjeta",
+              title: "Nuevo Lugar",
               type: "profile",
               children: <NewCard />, // Pass new card component
             })
