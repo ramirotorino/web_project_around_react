@@ -1,4 +1,4 @@
-// Main.jsx with fixed styles for title visibility
+// Main.jsx actualizado sobre el archivo original con 214 líneas
 import React, { useState } from "react";
 import avatar from "../../images/profilePhoto.png";
 import Popup from "../Main/Popup/Popup";
@@ -50,9 +50,9 @@ function Main() {
   });
 
   // Function to handle opening a popup
-  const handleOpenPopup = (popup) => {
-    console.log("Opening popup:", popup);
-    setPopup(popup);
+  const handleOpenPopup = (popupConfig) => {
+    console.log("Opening popup:", popupConfig);
+    setPopup(popupConfig);
   };
 
   // Function to handle closing the current popup
@@ -77,17 +77,18 @@ function Main() {
   const handleCardDelete = (card) => {
     console.log("Card delete initiated:", card);
     setDeleteCard(card);
-    setPopup({
+    handleOpenPopup({
       title: "¿Estás seguro?",
       type: "delete",
       children: (
         <ConfirmDeletePopup
+          isOpen={true} // Ensure the popup is open
           onConfirm={() => {
             console.log("Card deleted:", deleteCard);
             setDeleteCard(null);
-            setPopup(null);
+            handleClosePopup();
           }}
-          onClose={() => setPopup(null)}
+          onClose={handleClosePopup}
         />
       ),
     });
@@ -98,7 +99,7 @@ function Main() {
     event.preventDefault();
     console.log("Profile edited:", updatedProfile);
     setProfileData(updatedProfile);
-    setPopup(null);
+    handleClosePopup();
   };
 
   return (
@@ -194,12 +195,6 @@ function Main() {
           title={popup.title} // Pass title correctly
           type={popup.type}
           isOpen={true}
-          titleStyle={{
-            color: "black",
-            fontSize: "20px",
-            textAlign: "center",
-            margin: "10px 0",
-          }} // Ensure title visibility
         >
           {popup.children}
         </Popup>
