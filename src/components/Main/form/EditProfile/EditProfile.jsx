@@ -65,9 +65,9 @@ export default function EditProfile({
         <button
           style={{
             position:
-              "absolute" /* Posiciona el botón de cierre de manera absoluta */,
-            top: "10px" /* Distancia desde el borde superior */,
-            right: "10px" /* Distancia desde el borde derecho */,
+              "relative" /* Posiciona botón de cierre relativa a si hijo */,
+            top: "-48px",
+            right: "-201px",
             background: "transparent",
             border: "none",
             fontSize: "20px",
