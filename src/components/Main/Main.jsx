@@ -121,7 +121,7 @@ function Main() {
               })
             }
           >
-            <img src="./images/pencilEditButton.svg" alt="Edit Avatar Icon" />
+            <img src="src/images/pencilEditButton.svg" alt="Edit Avatar Icon" />
           </button>
         </div>
         <div className="profile__info">
@@ -154,7 +154,7 @@ function Main() {
           >
             <img
               className="profile__info-edit-pencil"
-              src="./images/pencilEditButton.svg"
+              src="src/images/pencilEditButton.svg"
               alt="Pencil Edit Button"
             />
           </button>

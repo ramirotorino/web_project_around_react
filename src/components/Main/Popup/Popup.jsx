@@ -26,7 +26,7 @@ export default function Popup({ isOpen, title, children, onClose }) {
           }}
           aria-label="Cerrar popup"
         >
-          ×
+          <img src="src/images/closeIcon.svg" alt="Close popup" />
         </button>
         {title && <h2 className="popup__title">{title}</h2>}
         <div className="popup__content">

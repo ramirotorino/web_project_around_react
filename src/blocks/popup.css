@@ -17,6 +17,7 @@
 }
 
 .popup__container {
+  position: relative;
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -102,4 +103,14 @@
   max-height: 80vh;
   object-fit: contain;
   border-radius: 10px;
+}
+
+.popup__close-button {
+  position: absolute; /* Posiciona el botón de cierre en la esquina superior derecha */
+  top: -30px;
+  right: 5px;
+  background: transparent; /* Sin fondo */
+  border: none; /* Sin borde */
+  padding: 0; /* Eliminar espacio interno */
+  cursor: pointer;
 }

@@ -64,7 +64,10 @@ export default function EditProfile({
       >
         <button
           style={{
-            alignSelf: "flex-end",
+            position:
+              "absolute" /* Posiciona el botón de cierre de manera absoluta */,
+            top: "10px" /* Distancia desde el borde superior */,
+            right: "10px" /* Distancia desde el borde derecho */,
             background: "transparent",
             border: "none",
             fontSize: "20px",
@@ -72,7 +75,7 @@ export default function EditProfile({
           }}
           onClick={onClose}
         >
-          ×
+          <img src="src/images/closeIcon.svg" alt="Close popup" />
         </button>
         <h3
           className="popup__title"
