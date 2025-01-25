@@ -106,11 +106,11 @@
 }
 
 .popup__close-button {
-  position: absolute; /* Posiciona el botón de cierre en la esquina superior derecha */
+  position: absolute;
   top: -30px;
   right: 5px;
-  background: transparent; /* Sin fondo */
-  border: none; /* Sin borde */
-  padding: 0; /* Eliminar espacio interno */
+  background: transparent;
+  border: none;
+  padding: 0;
   cursor: pointer;
 }

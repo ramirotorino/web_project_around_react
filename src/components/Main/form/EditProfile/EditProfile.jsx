@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import closeIcon from "../../../../images/closeIcon.svg";
 
 export default function EditProfile({
   isOpen,
@@ -12,7 +13,6 @@ export default function EditProfile({
   // Synchronize initial values when popup opens
   useEffect(() => {
     if (isOpen) {
-      console.log("Popup abierto, valores iniciales:", { name, about }); // Debugging
       setFormData({
         name: name || "",
         about: about || "",
@@ -26,12 +26,11 @@ export default function EditProfile({
       ...prevData,
       [name]: value,
     }));
-    console.log("Valor actualizado:", { [name]: value }); // Debugging
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Datos enviados:", formData); // Debugging
+
     onSubmit(event, formData);
   };
 
@@ -75,7 +74,7 @@ export default function EditProfile({
           }}
           onClick={onClose}
         >
-          <img src="src/images/closeIcon.svg" alt="Close popup" />
+          <img src={closeIcon} alt="Close popup" />
         </button>
         <h3
           className="popup__title"
