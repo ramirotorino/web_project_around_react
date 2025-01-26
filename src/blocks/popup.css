@@ -114,3 +114,30 @@
   padding: 0;
   cursor: pointer;
 }
+
+/* Contenedor de la imagen y botón */
+.popup__image-container {
+  position: relative; /* Permite posicionar el botón relativo a este contenedor */
+  display: inline-block;
+  text-align: center;
+}
+
+/* Botón de cierre específico para el popup de imágenes */
+.image-popup__close-button {
+  position: absolute;
+  top: -30px; /* Ajusta la distancia desde la parte superior de la imagen */
+  right: 10px; /* Ajusta la distancia desde la derecha de la imagen */
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* Texto de la imagen */
+.popup__caption {
+  margin-top: 10px;
+  font-size: 16px;
+  color: #fff;
+  text-align: left;
+}
