@@ -1,5 +1,6 @@
 import React from "react";
 import "@/blocks/popup.css";
+import closeIcon from "../../../images/CloseIcon.svg";
 
 export default function Popup({ isOpen, title, children, onClose }) {
   console.log("Popup renderizado:", { isOpen, title, children });
@@ -21,12 +22,11 @@ export default function Popup({ isOpen, title, children, onClose }) {
           className="popup__close-button"
           type="button"
           onClick={() => {
-            console.log("Popup cerrado");
             onClose();
           }}
           aria-label="Cerrar popup"
         >
-          <img src="src/images/closeIcon.svg" alt="Close popup" />
+          <img src={closeIcon} alt="Close popup" />
         </button>
         {title && <h2 className="popup__title">{title}</h2>}
         <div className="popup__content">
