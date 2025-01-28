@@ -1,6 +1,6 @@
 import React from "react";
 import "@/blocks/popup.css";
-import closeIcon from "../../../images/CloseIcon.svg";
+import closeIcon from "../../../images/closeicon.svg";
 
 export default function Popup({ isOpen, title, children, onClose }) {
   console.log("Popup renderizado:", { isOpen, title, children });
