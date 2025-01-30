@@ -1,6 +1,6 @@
 import React from "react";
 import "@/blocks/popup.css";
-import closeicon from "../../../images/closeicon.svg";
+import CloseIcon from "../../../images/CloseIcon.svg";
 
 export default function ImagePopup({ card, isOpen, onClose }) {
   return (
@@ -14,7 +14,7 @@ export default function ImagePopup({ card, isOpen, onClose }) {
               onClick={onClose}
               aria-label="Close image popup"
             >
-              <img src={closeicon} alt="Close popup" />
+              <img src={CloseIcon} alt="Close popup" />
             </button>
             <img className="popup__image" src={card.link} alt={card.name} />
             <p className="popup__caption">{card.name}</p>

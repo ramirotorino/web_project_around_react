@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import closeicon from "../../../../images/closeicon.svg";
+import CloseIcon from "../../../../images/CloseIconsvg";
 
 export default function EditProfile({
   isOpen,
@@ -74,7 +74,7 @@ export default function EditProfile({
           }}
           onClick={onClose}
         >
-          <img src={closeicon} alt="Close popup" />
+          <img src={CloseIcon} alt="Close popup" />
         </button>
         <h3
           className="popup__title"

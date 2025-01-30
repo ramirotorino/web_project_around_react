@@ -1,4 +1,3 @@
-// Main.jsx actualizado sobre el archivo original con 214 líneas
 import React, { useState } from "react";
 import avatar from "../../images/profilePhoto.png";
 import Popup from "../Main/Popup/Popup";
@@ -117,7 +116,7 @@ function Main() {
               handleOpenPopup({
                 title: "Cambiar foto de perfil",
                 type: "profile",
-                children: <EditAvatar />, // Pass avatar editing component
+                children: <EditAvatar />,
               })
             }
           >
@@ -181,7 +180,7 @@ function Main() {
             <Card
               key={card._id}
               card={card}
-              onCardClick={() => handleCardClick(card)} // Fixed handling for image selection
+              onCardClick={() => handleCardClick(card)}
               onCardDelete={handleCardDelete}
             />
           ))}
@@ -192,7 +191,7 @@ function Main() {
       {popup && (
         <Popup
           onClose={handleClosePopup}
-          title={popup.title} // Pass title correctly
+          title={popup.title}
           type={popup.type}
           isOpen={true}
         >

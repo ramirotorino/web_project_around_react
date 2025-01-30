@@ -117,7 +117,7 @@
 
 /* Contenedor de la imagen y botón */
 .popup__image-container {
-  position: relative; /* Permite posicionar el botón relativo a este contenedor */
+  position: relative; /* posiciona el botón relativo a este contenedor */
   display: inline-block;
   text-align: center;
 }
