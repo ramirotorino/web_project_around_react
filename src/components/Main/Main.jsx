@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext"; // ✅ Importar contexto
 import avatar from "../../images/profilePhoto.png";
 import Popup from "../Main/Popup/Popup";
 import NewCard from "./form/NewCard/NewCard";
@@ -7,6 +8,7 @@ import EditAvatar from "./form/EditAvatar/EditAvatar";
 import Card from "../Card/Card";
 import ImagePopup from "./Popup/ImagePopup";
 import ConfirmDeletePopup from "./Popup/ConfirmDeletePopup";
+import api from "../../utils/api"; // ✅ Importar la API
 
 // Import styles
 import "../../../src/blocks/profile.css";
@@ -17,36 +19,23 @@ import "../../../src/blocks/header.css";
 import "../../../src/blocks/footer.css";
 import "@/blocks/elements.css";
 
-// Sample card data
-const cards = [
-  {
-    isLiked: false,
-    _id: "5d1f0611d321eb4bdcd707dd",
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:10:57.741Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f064ed321eb4bdcd707de",
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:11:58.324Z",
-  },
-];
-
 function Main() {
-  const [popup, setPopup] = useState(null); // State for general popups
-  const [selectedCard, setSelectedCard] = useState(null); // State for image popups
-  const [deleteCard, setDeleteCard] = useState(null); // State for delete confirmation popup
+  const currentUser = useContext(CurrentUserContext); // ✅ Obtener usuario desde el contexto
+  const [popup, setPopup] = useState(null);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [deleteCard, setDeleteCard] = useState(null);
+  const [cards, setCards] = useState([]);
 
-  // Profile data state
-  const [profileData, setProfileData] = useState({
-    name: "Jacques Cousteau",
-    about: "Explorer",
-  });
+  useEffect(() => {
+    api
+      .getInitialCards()
+      .then((cardsData) => {
+        setCards(cardsData);
+      })
+      .catch((err) => {
+        console.error("Error al obtener las tarjetas:", err);
+      });
+  }, []);
 
   // Function to handle opening a popup
   const handleOpenPopup = (popupConfig) => {
@@ -62,7 +51,7 @@ function Main() {
 
   // Function to handle card selection (image popup)
   const handleCardClick = (card) => {
-    console.log("Card selected for image popup:", card); // Debugging
+    console.log("Card selected for image popup:", card);
     setSelectedCard(card);
   };
 
@@ -81,7 +70,7 @@ function Main() {
       type: "delete",
       children: (
         <ConfirmDeletePopup
-          isOpen={true} // Ensure the popup is open
+          isOpen={true}
           onConfirm={() => {
             console.log("Card deleted:", deleteCard);
             setDeleteCard(null);
@@ -93,20 +82,12 @@ function Main() {
     });
   };
 
-  // Function to handle profile edit submission
-  const handleEditProfileSubmit = (event, updatedProfile) => {
-    event.preventDefault();
-    console.log("Profile edited:", updatedProfile);
-    setProfileData(updatedProfile);
-    handleClosePopup();
-  };
-
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar-container">
           <img
-            src={avatar}
+            src={currentUser?.avatar || avatar} // ✅ Usar avatar del contexto
             alt="Profile photo"
             className="profile__photo profile__avatar"
           />
@@ -125,8 +106,14 @@ function Main() {
         </div>
         <div className="profile__info">
           <div className="profile__info-text">
-            <h2 className="profile__info-name">{profileData.name}</h2>
-            <p className="profile__info-about">{profileData.about}</p>
+            <h2 className="profile__info-name">
+              {currentUser?.name || "Cargando..."}{" "}
+              {/* ✅ Usar nombre del contexto */}
+            </h2>
+            <p className="profile__info-about">
+              {currentUser?.about || "Cargando..."}{" "}
+              {/* ✅ Usar descripción del contexto */}
+            </p>
           </div>
           <button
             className="profile__info-edit"
@@ -140,12 +127,12 @@ function Main() {
                     onClose={handleClosePopup}
                     onSubmit={(event) =>
                       handleEditProfileSubmit(event, {
-                        name: profileData.name,
-                        about: profileData.about,
+                        name: currentUser?.name,
+                        about: currentUser?.about,
                       })
                     }
-                    name={profileData.name}
-                    about={profileData.about}
+                    name={currentUser?.name}
+                    about={currentUser?.about}
                   />
                 ),
               })
@@ -165,7 +152,7 @@ function Main() {
             handleOpenPopup({
               title: "Nuevo Lugar",
               type: "profile",
-              children: <NewCard />, // Pass new card component
+              children: <NewCard />,
             })
           }
         >

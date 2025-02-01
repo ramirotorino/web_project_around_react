@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CloseIcon from "../../../../images/CloseIconsvg";
+import CloseIcon from "../../../../images/CloseIcon.svg";
 
 export default function EditProfile({
   isOpen,
