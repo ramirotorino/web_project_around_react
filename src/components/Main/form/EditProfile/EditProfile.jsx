@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { CurrentUserContext } from "../../../../contexts/CurrentUserContext";
+
 import CloseIcon from "../../../../images/CloseIcon.svg";
 
-export default function EditProfile({
-  isOpen,
-  onClose,
-  onSubmit,
-  name,
-  about,
-}) {
-  const [formData, setFormData] = useState({ name: "", about: "" });
+export default function EditProfile({ isOpen, onClose, onSubmit }) {
+  const currentUser = useContext(CurrentUserContext); // ✅ Obtener el usuario actual desde el contexto
 
-  // Synchronize initial values when popup opens
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+
+  // ✅ Actualizar los valores cuando el popup se abra
   useEffect(() => {
     if (isOpen) {
-      setFormData({
-        name: name || "",
-        about: about || "",
-      });
+      setName(currentUser?.name || "");
+      setDescription(currentUser?.about || "");
     }
-  }, [isOpen, name, about]);
+  }, [isOpen, currentUser]);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+  const handleNameChange = (event) => {
+    setName(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setDescription(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    onSubmit(event, formData);
+    onSubmit(event, { name, about: description }); // ✅ Enviar datos al padre
   };
 
   return (
@@ -63,8 +60,7 @@ export default function EditProfile({
       >
         <button
           style={{
-            position:
-              "relative" /* Posiciona botón de cierre relativa a si hijo */,
+            position: "relative",
             top: "-48px",
             right: "-201px",
             background: "transparent",
@@ -102,8 +98,8 @@ export default function EditProfile({
             <input
               type="text"
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              value={name} // ✅ Controlado por estado
+              onChange={handleNameChange} // ✅ Manejar cambios
               placeholder="Nombre"
               required
               className="popup__input"
@@ -120,8 +116,8 @@ export default function EditProfile({
             <input
               type="text"
               name="about"
-              value={formData.about}
-              onChange={handleChange}
+              value={description} // ✅ Controlado por estado
+              onChange={handleDescriptionChange} // ✅ Manejar cambios
               placeholder="Acerca de mí"
               required
               className="popup__input"

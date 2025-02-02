@@ -3,7 +3,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext"; // ✅ I
 import avatar from "../../images/profilePhoto.png";
 import Popup from "../Main/Popup/Popup";
 import NewCard from "./form/NewCard/NewCard";
-import EditProfile from "./form/EditProfile/EditProfile";
+import EditProfile from "./form/EditProfile/EditProfile.jsx";
 import EditAvatar from "./form/EditAvatar/EditAvatar";
 import Card from "../Card/Card";
 import ImagePopup from "./Popup/ImagePopup";
