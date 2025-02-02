@@ -128,7 +128,9 @@ function Main() {
               handleOpenPopup({
                 title: "Cambiar foto de perfil",
                 type: "profile",
-                children: <EditAvatar />,
+                children: (
+                  <EditAvatar isOpen={true} onClose={handleClosePopup} />
+                ),
               })
             }
           >

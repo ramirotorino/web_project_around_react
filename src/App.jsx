@@ -31,9 +31,24 @@ function App() {
       );
   };
 
+  // ✅ Nueva función para actualizar el avatar
+  const handleUpdateAvatar = (data) => {
+    api
+      .updateAvatar(data)
+      .then((newData) => {
+        setCurrentUser(newData); // ✅ Actualizar avatar en el estado global
+      })
+      .catch((error) => console.error("Error al actualizar el avatar:", error));
+  };
+
   return (
     <CurrentUserContext.Provider
-      value={{ currentUser, setCurrentUser, handleUpdateUser }}
+      value={{
+        currentUser,
+        setCurrentUser,
+        handleUpdateUser,
+        handleUpdateAvatar,
+      }}
     >
       {" "}
       {/* ✅ Proveedor de contexto */}
