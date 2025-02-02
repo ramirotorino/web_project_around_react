@@ -1,44 +1,25 @@
 import React, { useContext } from "react";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext"; // ✅ Importar contexto
-import api from "../../utils/api"; // ✅ Importar API
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import "@/blocks/elements.css";
 
-export default function Card({
-  card,
-  onCardClick,
-  onCardDelete,
-  onUpdateCards,
-}) {
-  const currentUser = useContext(CurrentUserContext); // ✅ Obtener usuario actual desde el contexto
+export default function Card({ card, onCardClick, onCardDelete, onCardLike }) {
+  const currentUser = useContext(CurrentUserContext);
 
-  // ✅ Asegurar que `card` tenga estructura válida
   if (!card) {
     console.error("La tarjeta no tiene datos válidos:", card);
-    return null; // Evitar que el componente se renderice con datos incorrectos
+    return null;
   }
 
-  const { name, link, likes = [], _id } = card; // ✅ Si `likes` no existe, asignar `[]` para evitar errores
+  const { name, link, isLiked, _id } = card;
 
-  // ✅ Verificar si el usuario actual ha dado "like" a la tarjeta
-  const isLiked =
-    Array.isArray(likes) && likes.some((like) => like._id === currentUser?._id);
-
-  // ✅ Aplicar la clase "like activo" si el usuario ha dado like
+  // ✅ Aplicar la clase de "like" activo correctamente
   const cardLikeButtonClassName = `elements__like-btn ${
-    isLiked ? "card__like-button_is-active" : ""
+    isLiked ? "elements__like-btn-active" : ""
   }`;
 
-  // ✅ Función para manejar el "Like"
+  // ✅ Llamar a `onCardLike` cuando se haga clic en el botón de "like"
   const handleLikeClick = () => {
-    const apiMethod = isLiked ? api.unlikeCard : api.likeCard; // Si ya está likeado, se quita, sino se pone
-
-    apiMethod(_id)
-      .then((updatedCard) => {
-        onUpdateCards(updatedCard); // ✅ Actualizar el estado en el componente padre
-      })
-      .catch((err) => {
-        console.error("Error al actualizar el like:", err);
-      });
+    onCardLike(card);
   };
 
   return (
@@ -60,8 +41,8 @@ export default function Card({
         <button
           aria-label="Like card"
           type="button"
-          className={cardLikeButtonClassName} // ✅ Aplicar clase según "isLiked"
-          onClick={handleLikeClick} // ✅ Llamar a la función cuando se haga clic
+          className={cardLikeButtonClassName} // ✅ Aplicar la clase correcta
+          onClick={handleLikeClick}
         ></button>
       </div>
     </li>

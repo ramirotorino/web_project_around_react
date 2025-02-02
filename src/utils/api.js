@@ -46,16 +46,11 @@ class Api {
     }).then(this._handleResponse);
   }
 
-  likeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: this._headers,
-    }).then(this._handleResponse);
-  }
-
-  unlikeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
+  // ✅ Unificar like y unlike en una sola función
+  changeLikeCardStatus(cardId, isLiked) {
+    return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+      // ✅ Cambio en la estructura de la URL
+      method: isLiked ? "PUT" : "DELETE",
       headers: this._headers,
     }).then(this._handleResponse);
   }

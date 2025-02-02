@@ -65,22 +65,57 @@ function Main() {
   const handleCardDelete = (card) => {
     console.log("Card delete initiated:", card);
     setDeleteCard(card);
+
+    // ✅ Mostrar el popup de confirmación antes de eliminar
     handleOpenPopup({
       title: "¿Estás seguro?",
       type: "delete",
       children: (
         <ConfirmDeletePopup
           isOpen={true}
-          onConfirm={() => {
-            console.log("Card deleted:", deleteCard);
-            setDeleteCard(null);
-            handleClosePopup();
-          }}
+          onConfirm={() => confirmCardDelete(card)} // ✅ Nueva función que realmente elimina la tarjeta
           onClose={handleClosePopup}
         />
       ),
     });
   };
+
+  // ✅ Nueva función para eliminar la tarjeta después de la confirmación
+  const confirmCardDelete = (card) => {
+    console.log("Confirmando eliminación de tarjeta:", card);
+
+    api
+      .deleteCard(card._id)
+      .then(() => {
+        setCards((prevCards) => prevCards.filter((c) => c._id !== card._id)); //
+        setDeleteCard(null);
+        handleClosePopup(); // ✅ Cerrar popup después de eliminar
+      })
+      .catch((error) => console.error("Error al eliminar la tarjeta:", error));
+  };
+
+  // ✅ Función para manejar los likes y dislikes
+  function handleCardLike(card) {
+    if (!card) {
+      console.error("Error: card no está definido", card);
+      return;
+    }
+
+    console.log("Datos de la tarjeta antes del like:", card);
+
+    api
+      .changeLikeCardStatus(card._id, !card.isLiked)
+      .then((newCard) => {
+        console.log("Tarjeta actualizada desde la API:", newCard);
+
+        setCards((prevCards) =>
+          prevCards.map((c) =>
+            c._id === card._id ? { ...c, isLiked: newCard.isLiked } : c
+          )
+        );
+      })
+      .catch((error) => console.error("Error al actualizar el like:", error));
+  }
 
   return (
     <main className="content">
@@ -167,6 +202,7 @@ function Main() {
             <Card
               key={card._id}
               card={card}
+              onCardLike={handleCardLike}
               onCardClick={() => handleCardClick(card)}
               onCardDelete={handleCardDelete}
             />
