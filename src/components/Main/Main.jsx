@@ -39,13 +39,11 @@ function Main() {
 
   // Function to handle opening a popup
   const handleOpenPopup = (popupConfig) => {
-    console.log("Opening popup:", popupConfig);
     setPopup(popupConfig);
   };
 
   // Function to handle closing the current popup
   const handleClosePopup = () => {
-    console.log("Closing popup");
     setPopup(null);
   };
 
@@ -57,13 +55,11 @@ function Main() {
 
   // Function to close the image popup
   const handleCloseImagePopup = () => {
-    console.log("Closing image popup");
     setSelectedCard(null);
   };
 
   // Function to handle card deletion
   const handleCardDelete = (card) => {
-    console.log("Card delete initiated:", card);
     setDeleteCard(card);
 
     // ✅ Mostrar el popup de confirmación antes de eliminar

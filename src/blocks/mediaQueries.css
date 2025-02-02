@@ -123,8 +123,13 @@
   }
 
   .popup__close-button {
-    top: -15%;
-    right: 3%;
+    position: relative;
+    top: -45px;
+    right: -387px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
   }
 
   .popup__edit-btn-img {
