@@ -19,8 +19,22 @@ function App() {
       });
   }, []);
 
+  // ✅ Función para actualizar el usuario en la API
+  const handleUpdateUser = (data) => {
+    api
+      .updateUserInfo(data)
+      .then((newData) => {
+        setCurrentUser(newData); // ✅ Actualizar estado global del usuario
+      })
+      .catch((error) =>
+        console.error("Error al actualizar el usuario:", error)
+      );
+  };
+
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider
+      value={{ currentUser, setCurrentUser, handleUpdateUser }}
+    >
       {" "}
       {/* ✅ Proveedor de contexto */}
       <div className="page">

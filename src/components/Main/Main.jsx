@@ -20,7 +20,7 @@ import "../../../src/blocks/footer.css";
 import "@/blocks/elements.css";
 
 function Main() {
-  const currentUser = useContext(CurrentUserContext); // ✅ Obtener usuario desde el contexto
+  const { currentUser, handleUpdateUser } = useContext(CurrentUserContext); // ✅ Obtener usuario desde el contexto
   const [popup, setPopup] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [deleteCard, setDeleteCard] = useState(null);
@@ -160,12 +160,7 @@ function Main() {
                   <EditProfile
                     isOpen={true}
                     onClose={handleClosePopup}
-                    onSubmit={(event) =>
-                      handleEditProfileSubmit(event, {
-                        name: currentUser?.name,
-                        about: currentUser?.about,
-                      })
-                    }
+                    onSubmit={handleUpdateUser} // ✅ Se pasa handleUpdateUser a EditProfile
                     name={currentUser?.name}
                     about={currentUser?.about}
                   />

@@ -27,8 +27,8 @@ export default function EditProfile({ isOpen, onClose, onSubmit }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    onSubmit(event, { name, about: description }); // ✅ Enviar datos al padre
+    onSubmit({ name, about: description }); // ✅ Enviar datos al padre (API)
+    onClose(); // ✅ Cerrar popup después de guardar
   };
 
   return (
