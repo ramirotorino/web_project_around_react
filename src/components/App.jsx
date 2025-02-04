@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Header from "./components/Header/Header";
-import Main from "./components/Main/Main";
-import Footer from "./components/Footer/Footer";
-import api from "./utils/api"; // ✅ Importar API
-import { CurrentUserContext } from "./contexts/CurrentUserContext"; // ✅ Importar contexto
+import Header from "./Header/Header";
+import Main from "./Main/Main";
+import Footer from "./Footer/Footer";
+import api from "../utils/api"; // ✅ Importar API
+import { CurrentUserContext } from "../contexts/CurrentUserContext"; // ✅ Importar contexto
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null); // ✅ Estado para el usuario actual
@@ -11,21 +11,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(false); // ✅ Estado global para la carga
 
   useEffect(() => {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData); // ✅ Guardar los datos del usuario en el estado
-      })
-      .catch((err) =>
-        console.error("Error al obtener los datos del usuario:", err)
-      );
+    setIsLoading(true); // ✅ Activa el estado de carga antes de la solicitud
 
-    api
-      .getInitialCards()
-      .then((cardsData) => {
-        setCards(cardsData); // ✅ Guardar tarjetas en `App.jsx`
+    Promise.all([api.getUserInfo(), api.getInitialCards()])
+      .then(([userData, cardsData]) => {
+        setCurrentUser(userData); // ✅ Guardar datos del usuario
+        setCards(cardsData); // ✅ Guardar tarjetas
       })
-      .catch((err) => console.error("Error al obtener las tarjetas:", err));
+      .catch((err) => console.error("Error al obtener los datos:", err))
+      .finally(() => setIsLoading(false)); // ✅ Desactiva el estado de carga cuando todo termine
   }, []);
 
   // ✅ Función para actualizar el usuario en la API

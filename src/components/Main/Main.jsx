@@ -22,7 +22,7 @@ function Main({ cards, onAddPlaceSubmit, onCardDelete, onCardLike }) {
   const { currentUser, handleUpdateUser } = useContext(CurrentUserContext); // ✅ Obtener usuario desde el contexto
   const [popup, setPopup] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
-  const [deleteCard, setDeleteCard] = useState(null);
+  const [setDeleteCard] = useState(null);
 
   // Function to handle opening a popup
   const handleOpenPopup = (popupConfig) => {
