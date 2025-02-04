@@ -11,7 +11,10 @@ export default function NewCard({ onAddPlaceSubmit, onClosePopup }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!isValid) return; // ✅ Evita el envío si el formulario es inválido
+    if (!isValid) {
+      console.error("El formulario no es válido, revisa los errores:", errors);
+      return; // ⛔ Evita continuar si hay errores
+    }
 
     setIsSubmitting(true); // ✅ Activa el indicador de carga
 
@@ -21,6 +24,9 @@ export default function NewCard({ onAddPlaceSubmit, onClosePopup }) {
         setLink("");
         setIsValid(false);
         onClosePopup(); // ✅ Cierra el popup
+      })
+      .catch((error) => {
+        console.error("Error al agregar la tarjeta:", error);
       })
       .finally(() => setIsSubmitting(false)); // ✅ Desactiva el indicador de carga
   };
@@ -36,7 +42,7 @@ export default function NewCard({ onAddPlaceSubmit, onClosePopup }) {
     let newErrors = { ...errors };
     if (input.name === "card-name") {
       newErrors.title =
-        input.value.length < 1 ? "El título es obligatorio" : "";
+        input.value.length < 3 ? "El título es obligatorio" : "";
     } else if (input.name === "link") {
       const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
       newErrors.link = !urlRegex.test(input.value) ? "URL inválida" : "";
