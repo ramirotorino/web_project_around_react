@@ -19,23 +19,11 @@ import "../../../src/blocks/header.css";
 import "../../../src/blocks/footer.css";
 import "@/blocks/elements.css";
 
-function Main() {
+function Main({ cards, onAddPlaceSubmit, onCardDelete, onCardLike }) {
   const { currentUser, handleUpdateUser } = useContext(CurrentUserContext); // ✅ Obtener usuario desde el contexto
   const [popup, setPopup] = useState(null);
   const [selectedCard, setSelectedCard] = useState(null);
   const [deleteCard, setDeleteCard] = useState(null);
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api
-      .getInitialCards()
-      .then((cardsData) => {
-        setCards(cardsData);
-      })
-      .catch((err) => {
-        console.error("Error al obtener las tarjetas:", err);
-      });
-  }, []);
 
   // Function to handle opening a popup
   const handleOpenPopup = (popupConfig) => {
@@ -78,16 +66,10 @@ function Main() {
 
   // ✅ Nueva función para eliminar la tarjeta después de la confirmación
   const confirmCardDelete = (card) => {
-    console.log("Confirmando eliminación de tarjeta:", card);
-
-    api
-      .deleteCard(card._id)
-      .then(() => {
-        setCards((prevCards) => prevCards.filter((c) => c._id !== card._id)); //
-        setDeleteCard(null);
-        handleClosePopup(); // ✅ Cerrar popup después de eliminar
-      })
-      .catch((error) => console.error("Error al eliminar la tarjeta:", error));
+    console.log("🗑️ Confirmando eliminación de tarjeta:", card);
+    onCardDelete(card); // ✅ Llamar a la función de `App.jsx`
+    setDeleteCard(null);
+    handleClosePopup(); // ✅ Cerrar el popup después de eliminar
   };
 
   // ✅ Función para manejar los likes y dislikes
@@ -98,19 +80,7 @@ function Main() {
     }
 
     console.log("Datos de la tarjeta antes del like:", card);
-
-    api
-      .changeLikeCardStatus(card._id, !card.isLiked)
-      .then((newCard) => {
-        console.log("Tarjeta actualizada desde la API:", newCard);
-
-        setCards((prevCards) =>
-          prevCards.map((c) =>
-            c._id === card._id ? { ...c, isLiked: newCard.isLiked } : c
-          )
-        );
-      })
-      .catch((error) => console.error("Error al actualizar el like:", error));
+    onCardLike(card); // ✅ Llama a la función que se maneja en `App.jsx`
   }
 
   return (
@@ -180,7 +150,12 @@ function Main() {
             handleOpenPopup({
               title: "Nuevo Lugar",
               type: "profile",
-              children: <NewCard />,
+              children: (
+                <NewCard
+                  onAddPlaceSubmit={onAddPlaceSubmit} // ✅ Ahora está pasando la función correcta
+                  onClosePopup={handleClosePopup} // ✅ Para cerrar el popup después de agregar
+                />
+              ),
             })
           }
         >

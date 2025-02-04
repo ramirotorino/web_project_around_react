@@ -1,14 +1,32 @@
-import React from "react";
-
+import React, { useState } from "react";
 import "../../../../blocks/popup.css";
 
-export default function NewCard() {
+export default function NewCard({ onAddPlaceSubmit, onClosePopup }) {
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+
+  const handleTitleChange = (e) => setTitle(e.target.value);
+  const handleLinkChange = (e) => setLink(e.target.value);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!title || !link) {
+      console.error("Error: Los campos no pueden estar vacíos.");
+      return;
+    }
+    onAddPlaceSubmit({ name: title, link }); // ✅ Enviar datos a `App.jsx`
+    setTitle(""); // ✅ Limpiar formulario
+    setLink("");
+    onClosePopup(); // ✅ Cerrar popup después de agregar la tarjeta
+  };
+
   return (
     <form
       className="popup__form"
       name="card-form"
       id="new-card-form"
       noValidate
+      onSubmit={handleSubmit}
     >
       <label className="popup__field">
         <input
@@ -20,8 +38,9 @@ export default function NewCard() {
           placeholder="Title"
           required
           type="text"
+          value={title}
+          onChange={handleTitleChange}
         />
-        <span className="popup__error" id="card-name-error"></span>
       </label>
       <label className="popup__field">
         <input
@@ -31,8 +50,9 @@ export default function NewCard() {
           placeholder="Image link"
           required
           type="url"
+          value={link}
+          onChange={handleLinkChange}
         />
-        <span className="popup__error" id="card-link-error"></span>
       </label>
       <button className="button popup__button" type="submit">
         Guardar
