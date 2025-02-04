@@ -4,20 +4,46 @@ import "../../../../blocks/popup.css";
 export default function NewCard({ onAddPlaceSubmit, onClosePopup }) {
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
-
-  const handleTitleChange = (e) => setTitle(e.target.value);
   const handleLinkChange = (e) => setLink(e.target.value);
+  const [errors, setErrors] = useState({ title: "", link: "" });
+  const [isValid, setIsValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!title || !link) {
-      console.error("Error: Los campos no pueden estar vacíos.");
-      return;
+    if (!isValid) return; // ✅ Evita el envío si el formulario es inválido
+
+    setIsSubmitting(true); // ✅ Activa el indicador de carga
+
+    onAddPlaceSubmit({ name: title, link })
+      .then(() => {
+        setTitle(""); // ✅ Limpia el formulario después de añadir la tarjeta
+        setLink("");
+        setIsValid(false);
+        onClosePopup(); // ✅ Cierra el popup
+      })
+      .finally(() => setIsSubmitting(false)); // ✅ Desactiva el indicador de carga
+  };
+
+  // Funciones para manejar los cambios en los inputs
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+    validateForm(e.target);
+  };
+
+  // ✅ Función para validar el formulario
+  const validateForm = (input) => {
+    let newErrors = { ...errors };
+    if (input.name === "card-name") {
+      newErrors.title =
+        input.value.length < 1 ? "El título es obligatorio" : "";
+    } else if (input.name === "link") {
+      const urlRegex = /^(ftp|http|https):\/\/[^ "]+$/;
+      newErrors.link = !urlRegex.test(input.value) ? "URL inválida" : "";
     }
-    onAddPlaceSubmit({ name: title, link }); // ✅ Enviar datos a `App.jsx`
-    setTitle(""); // ✅ Limpiar formulario
-    setLink("");
-    onClosePopup(); // ✅ Cerrar popup después de agregar la tarjeta
+
+    setErrors(newErrors);
+    setIsValid(!newErrors.title && !newErrors.link); // ✅ Solo si no hay errores
   };
 
   return (

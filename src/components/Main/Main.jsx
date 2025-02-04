@@ -8,7 +8,6 @@ import EditAvatar from "./form/EditAvatar/EditAvatar";
 import Card from "../Card/Card";
 import ImagePopup from "./Popup/ImagePopup";
 import ConfirmDeletePopup from "./Popup/ConfirmDeletePopup";
-import api from "../../utils/api"; // ✅ Importar la API
 
 // Import styles
 import "../../../src/blocks/profile.css";

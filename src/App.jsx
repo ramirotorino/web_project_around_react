@@ -8,6 +8,7 @@ import { CurrentUserContext } from "./contexts/CurrentUserContext"; // ✅ Impor
 function App() {
   const [currentUser, setCurrentUser] = useState(null); // ✅ Estado para el usuario actual
   const [cards, setCards] = useState([]); // ✅ Estado de tarjetas
+  const [isLoading, setIsLoading] = useState(false); // ✅ Estado global para la carga
 
   useEffect(() => {
     api
@@ -52,39 +53,25 @@ function App() {
   // ✅ Función para manejar la adición de una nueva tarjeta
   // ✅ Asegurar que se envían los datos correctos a la API
   const handleAddPlaceSubmit = (cardData) => {
-    console.log("📌 Enviando nueva tarjeta a la API:", cardData);
-
-    if (!cardData.name || cardData.name.length < 3) {
-      console.error("🚨 Error: El nombre debe tener al menos 3 caracteres.");
-      return;
-    }
-
-    if (!cardData.link || !cardData.link.startsWith("http")) {
-      console.error("🚨 Error: La URL de la imagen no es válida.");
-      return;
-    }
-
-    api
-      .addCard({
-        name: cardData.name.trim(),
-        link: cardData.link.trim(),
-      })
+    setIsLoading(true);
+    return api
+      .addCard(cardData)
       .then((newCard) => {
-        console.log("✅ Tarjeta añadida correctamente:", newCard);
-        setCards((prevCards) => [newCard, ...prevCards]); // ✅ Agregar tarjeta sin recargar
+        setCards((prevCards) => [newCard, ...prevCards]); // ✅ Añadir nueva tarjeta al inicio
       })
-      .catch((error) => {
-        console.error("❌ Error al agregar la tarjeta:", error);
-      });
+      .catch((error) => console.error("Error al agregar la tarjeta:", error))
+      .finally(() => setIsLoading(false)); // ✅ Desactiva la carga
   };
 
   const handleCardDelete = (card) => {
+    setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
         setCards((prevCards) => prevCards.filter((c) => c._id !== card._id));
       })
-      .catch((error) => console.error("Error al eliminar la tarjeta:", error));
+      .catch((error) => console.error("Error al eliminar la tarjeta:", error))
+      .finally(() => setIsLoading(false));
   };
 
   const handleCardLike = (card) => {
